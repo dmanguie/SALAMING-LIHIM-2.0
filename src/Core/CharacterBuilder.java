@@ -1,31 +1,24 @@
 package Core;
-
-import Classes.*;
-import Races.*;
+import Races.RaceType;
+import Classes.CharClass;
 
 public class CharacterBuilder {
+
+    private static final RaceType.Type[] RACES = {
+            RaceType.Type.TIKBALANG,
+            RaceType.Type.KAPRE,
+            RaceType.Type.MANANANGGAL
+    };
+
+    private static final CharClass.Type[][] CLASSES = {
+            { CharClass.Type.ARCHER,  CharClass.Type.SPEARMAN },
+            { CharClass.Type.GUNMAN,  CharClass.Type.DRUID    },
+            { CharClass.Type.MAGE,    CharClass.Type.ASSASSIN }
+    };
+
     public static PlayerCharacter build(String name, int raceChoice, int classChoice) {
-        Race race = null;
-        ClassArchetype cls = null;
-
-        if (raceChoice == 1) race = new Tikbalang();
-        else if (raceChoice == 2) race = new Kapre();
-        else if (raceChoice == 3) race = new Manananggal();
-
-        if (raceChoice == 1) {
-            if (classChoice == 1) cls = new Archer();
-            else if (classChoice == 2) cls = new Spearman();
-        } else if (raceChoice == 2) {
-            if (classChoice == 1) cls = new Gunman();
-            else if (classChoice == 2) cls = new Druid();
-        } else if (raceChoice == 3) {
-            if (classChoice == 1) cls = new Mage();
-            else if (classChoice == 2) cls = new Assassin();
-        }
-
+        RaceType race = new RaceType(RACES[raceChoice - 1]);
+        CharClass cls  = new CharClass(CLASSES[raceChoice - 1][classChoice - 1]);
         return new PlayerCharacter(name, race, cls);
     }
 }
-
-
-

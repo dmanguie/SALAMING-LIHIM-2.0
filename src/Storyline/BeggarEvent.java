@@ -1,8 +1,6 @@
 package Storyline;
 
 import Core.PlayerCharacter;
-import Storyline.World1.Mission2;
-
 import java.util.Random;
 import java.util.Scanner;
 
@@ -11,16 +9,13 @@ public class BeggarEvent {
     private static boolean triggeredInWorld3 = false;
     private static boolean introducedBefore = false;
 
-
     public static int trigger(PlayerCharacter player, int currentWorld) {
         Scanner sc = new Scanner(System.in);
-        if (!Mission2.helpedBeggar) {
-            return 0;
-        }
+
+        // ✅ return 0 goes HERE with a condition, not alone at the top
         if (currentWorld == 3 && triggeredInWorld3) {
             return 0;
         }
-
 
         int dialogType;
         if (!introducedBefore) {
@@ -28,7 +23,7 @@ public class BeggarEvent {
             System.out.println("\n\nA faint voice echoes in the darkness...\n");
             sc.nextLine();
 
-            System.out.println("??? : Hey... wake up, kid. C’mon, open your eyes.\n");
+            System.out.println("??? : Hey... wake up, kid. C'mon, open your eyes.\n");
             sc.nextLine();
 
             System.out.println("As your vision clears, you recognize the man leaning over you.\n");
@@ -38,14 +33,15 @@ public class BeggarEvent {
             System.out.println("Sir Khai: the beggar you helped back at the alley in Biringan City.\n");
             sc.nextLine();
 
-            System.out.println("Sir Khai: Didn’t think we'd meet again like this... but good thing I passed by the old bridge.");
+            System.out.println("Sir Khai: Didn't think we'd meet again like this...");
             System.out.println("Sir Khai: You were knocked out cold. Lucky I found you before someone else did.\n");
             sc.nextLine();
 
             introducedBefore = true;
-            dialogType = 1; // mark introduction as done
+            dialogType = 1;
 
         } else {
+
             System.out.println("\n\nYou hear a familiar voice as consciousness returns...\n");
             sc.nextLine();
 
@@ -59,17 +55,16 @@ public class BeggarEvent {
             dialogType = 2;
         }
 
-        int lostBarya = Math.min(player.getBarya(), new Random().nextInt(26)); // loses up to 25 pesos
+        int lostBarya = Math.min(player.getBarya(), new Random().nextInt(26));
         player.setBarya(player.getBarya() - lostBarya);
-        //player.hp += player.maxHp / 2; //restore hp
         player.setHp(player.maxHp / 2);
         if (player.getHp() > player.maxHp) {
-            player.setHp(player.maxHp);// prevent overheal
+            player.setHp(player.maxHp);
         }
 
         player.setAlive(true);
 
-        System.out.println("\nSir Khai: You dropped some coins, so I kept " + lostBarya + " pesos for ‘finding you’. ");
+        System.out.println("\nSir Khai: You dropped some coins, so I kept " + lostBarya + " pesos for 'finding you'.");
         System.out.println("Sir Khai: Try not to get yourself killed next time, alright?");
         sc.nextLine();
 
@@ -77,9 +72,7 @@ public class BeggarEvent {
         System.out.println("Your HP has been partially restored, but " + lostBarya + " pesos are missing...");
         DialogueUtils.pause();
 
-
-
-        if(currentWorld == 3) triggeredInWorld3 = true;
+        if (currentWorld == 3) triggeredInWorld3 = true;
 
         return dialogType;
     }
