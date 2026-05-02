@@ -1,4 +1,5 @@
 import Core.PlayerCharacter;
+import Storyline.CheatCode;
 import Storyline.DialogueUtils;
 import Storyline.Ending;
 import Storyline.Opening;
@@ -13,7 +14,12 @@ public class Main {
         player.displayStats();
         DialogueUtils.pause();
 
+        CheatCode.prompt(player);
+        player.displayStats();
+        DialogueUtils.pause();
+
         boolean survived = WorldRunner.runAll(player);
+
 
         if (survived) {
             Ending.ending();

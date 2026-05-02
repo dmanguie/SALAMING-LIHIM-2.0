@@ -57,7 +57,17 @@ public class WorldRunner {
     public static boolean runAll(PlayerCharacter player) {
         BattleManager bm = new BattleManager();
 
+        // reads which mission to start from (set by CheatCode)
+        int startFrom = CheatCode.getStartFromMission();
+
         for (int i = 0; i < ALL_MISSIONS.size(); i++) {
+
+            // skip missions before the chosen world
+            if (i < startFrom) {
+                System.out.println("⏩ Skipping Mission " + (i + 1) + "...");
+                continue;
+            }
+
             MissionData m = ALL_MISSIONS.get(i);
             int world = worldOf(i);
             int missionNum = (i % 3) + 1;
@@ -77,7 +87,7 @@ public class WorldRunner {
 
             System.out.println("\n" + m.outro());
 
-            // Rest + Shop after last mission of each world
+            // rest + shop after last mission of each world
             if (i == 2 || i == 5 || i == 8) {
                 player.rest();
                 System.out.println("\n🛒 A shop appears nearby...");
